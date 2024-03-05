@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Temperature Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-color: #ffffff;">
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        <label for="temperature">Enter a Temperature:</label>
+        <input type="text" id="temperature" placeholder="Enter a temperature" oninput="validateInput()">
+        
+        <label for="unit">Choose a unit:</label>
+        <select id="unit">
+            <option value="celsius">Celsius</option>
+            <option value="fahrenheit">Fahrenheit</option>
+        </select>
+        
+        <button onclick="convertTemperature()">Convert</button>
+        
+        <div id="result"></div>
+    </div>
+    <script>
+        function validateInput() {
+            var temperatureInput = document.getElementById('temperature');
+            temperatureInput.value = temperatureInput.value.replace(/[^0-9.]/g, ''); // allow only numbers and a dot
+        }
+
+        function convertTemperature() {
+            var temperatureInput = document.getElementById('temperature').value;
+            var unit = document.getElementById('unit').value;
+            var resultElement = document.getElementById('result');
+            var container = document.querySelector('.container');
+
+            if (temperatureInput === '') {
+                resultElement.innerHTML = 'Please enter a temperature to convert.';
+                return;
+            }
+
+            var temperature = parseFloat(temperatureInput);
+
+            if (isNaN(temperature)) {
+                resultElement.innerHTML = 'The temperature entered is invalid.';
+                return;
+            }
+
+            var convertedTemperature;
+            var resultUnit;
+            var backgroundColor;
+
+            if (unit === 'celsius') {
+                convertedTemperature = (temperature * 9/5) + 32;
+                resultUnit = 'Fahrenheit';
+                backgroundColor = 'linear-gradient(to top, #EE6B6B, #FFCBD1)';
+            } else {
+                convertedTemperature = (temperature - 32) * 5/9;
+                resultUnit = 'Celsius';
+                backgroundColor = 'linear-gradient(to top, #59BFFF, #D9F1FF)';
+            }
+
+            resultElement.innerHTML = 'The converted temperature is: ' + convertedTemperature.toFixed(2) + ' ' + resultUnit;
+            container.style.background = backgroundColor;
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #a7d489;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c4dea4;
+        }
+
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</body>
+</html>
